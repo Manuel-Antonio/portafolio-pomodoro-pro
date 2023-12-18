@@ -26,9 +26,13 @@ export class PomodoroTimerComponent implements OnInit, OnDestroy {
   ) {
   }
   ngOnInit(): void {
-    this.timerService.getTimer(1).subscribe(result => this.tiempoRestante = (result?.timer || 0) * 60);
-    this.tiempoSeleccionado = this.tiempoRestante;
-    this.globalService.tiempoFormateado = this.globalService.formatTime(this.tiempoRestante);
+    this.timerService.getTimer(1).subscribe(result => {
+      this.tiempoRestante = (result?.timer || 0) * 60;
+      this.tiempoSeleccionado = this.tiempoRestante;
+      this.globalService.tiempoFormateado = this.globalService.formatTime(this.tiempoRestante != 0 ? this.tiempoRestante : 25 * 60);
+    });
+   
+    
   }
 
   // Metodos de tiempo 

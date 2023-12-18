@@ -16,9 +16,9 @@ export class GlobalService {
   taskItem: Task = new Task();
   estadoModal: string = "";
   isVisibleModal: boolean = false;
-  timerPomodoro: number = 0;
-  timerBreakLong: number = 0;
-  timerBreakShort: number = 0;
+  timerPomodoro: number = 25;
+  timerBreakLong: number = 15;
+  timerBreakShort: number = 5;
   colorPomodoro?: string = "";
   colorBreakLong?: string = "";
   colorBreakShort?: string = "";

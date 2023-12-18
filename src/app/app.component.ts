@@ -34,18 +34,36 @@ export class AppComponent {
       }
     }));
   }
-private agregarThemes() {
-  const themes: Theme[] = [
-    new Theme(1, '#ef4444'),
-    new Theme(2, '#47a9b0'),
-    new Theme(3, '#0078d4')
-  ];
 
-  // Agregar cada temporizador de forma segura usando el servicio de temporizadores
-  themes.forEach(theme => {
-    this.agregarThemeDeFormaSegura(theme);
-  });
-}
+
+  private agregarThemes() {
+    const themes: Theme[] = [
+      new Theme(1, '#ef4444'),
+      new Theme(2, '#47a9b0'),
+      new Theme(3, '#0078d4')
+    ];
+
+    // Agregar cada temporizador de forma segura usando el servicio de temporizadores
+    themes.forEach(theme => {
+      this.agregarThemeDeFormaSegura(theme);
+    });
+  }
+  private agregarThemeDeFormaSegura(theme: Theme) {
+    this.themeService.verificarExistencia(theme.id).subscribe(
+      (existe: boolean) => {
+        if (!existe) {
+
+          this.themeService.addTheme(theme).subscribe(
+            () => console.log(`Theme ${theme.id} agregado con éxito`),
+            (error) => console.error(`Error al intentar agregar el temporizador ${theme.id}:`, error)
+          );
+        } else {
+          //console.warn(`El temporizador con ID ${temporizador.id} ya existe en la base de datos. No se agregará.`);
+        }
+      },
+      (error) => console.error(`Error al verificar la existencia del temporizador ${theme.id}:`, error)
+    );
+  }
   private agregarTemporizadores() {
     const temporizadores: Timer[] = [
       new Timer(1, 25),
@@ -58,24 +76,6 @@ private agregarThemes() {
       this.agregarTemporizadorDeFormaSegura(temporizador);
     });
   }
-
-  private agregarThemeDeFormaSegura(theme: Theme) {
-    this.themeService.verificarExistencia(theme.id).subscribe(
-      (existe: boolean) => {
-        if (!existe) {
-          
-          this.themeService.addTheme(theme).subscribe(
-            () => console.log(`Theme ${theme.id} agregado con éxito`),
-            (error) => console.error(`Error al intentar agregar el temporizador ${theme.id}:`, error)
-          );
-        } else {
-          //console.warn(`El temporizador con ID ${temporizador.id} ya existe en la base de datos. No se agregará.`);
-        }
-      },
-      (error) => console.error(`Error al verificar la existencia del temporizador ${theme.id}:`, error)
-    );
-  }
-
   // Método para agregar un temporizador de forma segura
   private agregarTemporizadorDeFormaSegura(temporizador: Timer) {
     this.timerService.verificarExistencia(temporizador.id).subscribe(
@@ -93,5 +93,5 @@ private agregarThemes() {
       (error) => console.error(`Error al verificar la existencia del temporizador ${temporizador.id}:`, error)
     );
   }
- 
+
 }

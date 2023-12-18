@@ -1,0 +1,192 @@
+<div class="fixed inset-0 overflow-y-auto" (click)="closeModal()">
+  <div
+    class="flex bg-zinc-900 bg-opacity-50 items-center justify-center min-h-screen"
+  >
+    <div
+      class="bg-[#ffffffde] mx-3 p-8 rounded shadow-md lg:w-2/3 xl:w-1/2 2xl:w-2/5"
+      (click)="stopPropagation($event)"
+    >
+      <div class="rounded overflow-hidden mt-3">
+        <div class="overflow-y-auto max-h-screen">
+          <form
+            method="post"
+            [formGroup]="frmTarea"
+            (ngSubmit)="enviarFormulario()"
+          >
+            <div class="px-4 py-3">
+              <input
+                type="text"
+                class="p-3 w-full rounded focus:outline-none text-2xl font-semibold text-zinc-700"
+                placeholder="Escribe una tarea ..."
+                formControlName="title"
+              />
+              <div class="mt-2 sm:flex items-center gap-3">
+                <div class="w-full sm:w-1/2">
+                  <p class="text-zinc-700 font-medium text-md mb-2">
+                    Completados / # Pomodoros
+                  </p>
+                  <input
+                    type="number"
+                    min="0"
+                    class="w-20 focus:outline-none text-zinc-500 border p-2 text-center rounded"
+                    value="0"
+                    formControlName="pomodoroCompleted"
+                  />
+                  <span class="text-zinc-400 mx-1"> / </span>
+                  <input
+                    type="number"
+                    min="1"
+                    class="w-20 focus:outline-none border text-zinc-500 p-2 text-center rounded"
+                    value="1"
+                    formControlName="pomodoroEstimated"
+                  />
+                </div>
+                <div class="w-full sm:w-1/2">
+                  <p class="text-zinc-700 font-medium text-md mb-2">
+                    Categoria
+                  </p>
+                  <div class="relative">
+                    <!-- Boton select -->
+                    <div
+                      (click)="switchCategoria()"
+                      class="flex justify-between bg-white rounded p-2 cursor-pointer text-left w-full focus:outline-none border-b-2 select_categoria"
+                    >
+                      <input
+                        type="text"
+                        readonly
+                        class="w-auto focus:outline-none cursor-pointer"
+                        formControlName="category"
+                        [value]="categoriaElegida"
+                      />
+                      <div class="custom-select-arrow">&#9662;</div>
+                    </div>
+                    <!-- Detalle -->
+                    <div
+                      class=" {{
+                        isVisibleCategoria ? 'absolute z-10' : 'hidden'
+                      }} w-full bg-white"
+                    >
+                      <button
+                        type="button"
+                        (click)="valorCategoria('Ninguno', $event)"
+                        class="btnTareaCategoria w-full py-2 px-3 text-left"
+                      >
+                        Ninguno
+                      </button>
+                      <button
+                        type="button"
+                        (click)="valorCategoria('Educacion', $event)"
+                        class="btnTareaCategoria w-full py-2 px-3 text-left"
+                      >
+                        Educacion
+                      </button>
+                      <button
+                        type="button"
+                        (click)="valorCategoria('Trabajo', $event)"
+                        class="btnTareaCategoria w-full py-2 px-3 text-left"
+                      >
+                        Trabajo
+                      </button>
+                      <button
+                        type="button"
+                        (click)="valorCategoria('Otros', $event)"
+                        class="btnTareaCategoria w-full py-2 px-3 text-left"
+                      >
+                        Otros
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input
+                type="text"
+                class="mt-2 border p-2 rounded w-full focus:outline-none"
+                placeholder="Otra categoria"
+                *ngIf="isVisibleOtraCategoria"
+                formControlName="otherCategory"
+              />
+              <div class="mt-2">
+                <h3 class="font-medium text-zinc-700">Prioridad</h3>
+                <div class="relative">
+                  <!-- Boton select -->
+                  <div
+                    (click)="switchPrioridad()"
+                    class="flex justify-between p-2 bg-white rounded mt-2 cursor-pointer text-left w-full focus:outline-none border-b-2 select_categoria"
+                  >
+                    <input
+                      type="text"
+                      readonly
+                      class="w-full focus:outline-none cursor-pointer"
+                      formControlName="priority"
+                      [value]="prioridadElegida"
+                    />
+                    <div class="custom-select-arrow">&#9662;</div>
+                  </div>
+                  <!-- Detalle -->
+                  <div
+                    class=" {{
+                      isVisiblePrioridad ? 'absolute' : 'hidden'
+                    }} w-full bg-white"
+                  >
+                    <button
+                      type="button"
+                      (click)="valorPrioridad('Alta', $event)"
+                      class="btnPrioridad w-full py-2 px-3 text-left"
+                    >
+                      Alta
+                    </button>
+                    <button
+                      type="button"
+                      (click)="valorPrioridad('Media', $event)"
+                      class="btnPrioridad w-full py-2 px-3 text-left"
+                    >
+                      Media
+                    </button>
+                    <button
+                      type="button"
+                      (click)="valorPrioridad('Baja', $event)"
+                      class="btnPrioridad w-full py-2 px-3 text-left"
+                    >
+                      Baja
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <textarea
+                placeholder="Agrega una nota"
+                rows="3"
+                class="text-md mt-3 leading-tight bg-zinc-100 text-zinc-700 focus:outline-none border rounded w-full p-2"
+                formControlName="notes"
+              ></textarea>
+            </div>
+            <div class="p-2 flex gap-3 justify-between">
+              <button
+                *ngIf="isVisibleEliminar"
+                type="button"
+                class="font-semibold p-2 rounded"
+                (click)="eliminarTarea()"
+              >
+                Eliminar
+              </button>
+              <div class="flex justify-end gap-3">
+                <button
+                  type="button"
+                  (click)="closeModal()"
+                  class="font-semibold p-2 rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  class="bg-zinc-800 text-white font-semibold p-2 rounded"
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

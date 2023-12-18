@@ -1,1 +1,71 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --colorGlobal: rgb(55, 55, 55);
+    --transitionDuration: .3s;
+}
+::selection {
+    background: var(--colorGlobal);
+    color: white;
+}
+.fondoPrincipal {
+    background: var(--colorGlobal);
+    transition: all ease var(--transitionDuration);
+}
+.colorPrincipal {
+    color: var(--colorGlobal);
+    transition: all ease var(--transitionDuration);
+}
+
+.select_categoria:hover {
+    border-color:  var(--colorGlobal);
+}
+
+.btnTareaCategoria:hover, .btnPrioridad:hover {
+    background: var(--colorGlobal);
+    color: white;
+    transition: all ease .2s;
+    
+}
+
+.btnItemElegido{
+    color: var(--colorGlobal);
+}
+.btnItemNoElegido{
+    color: #cdcdcd;
+}
+
+.btnCompleted {
+    color: var(--colorGlobal);
+    transition: all ease var(--transitionDuration);
+}
+
+
+/* Estilo de la barra de desplazamiento */
+/* Ancho y alto de la barra de desplazamiento */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Estilo del pulgar (scroll thumb) de la barra de desplazamiento */
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--colorGlobal); 
+    /* Cambia el color según tus preferencias */
+    border-radius: 5px; /* Añade bordes redondeados al pulgar */
+  }
+  
+  /* Estilo de la pista (scroll track) de la barra de desplazamiento */
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Cambia el color según tus preferencias */
+    border-radius: 5px; /* Añade bordes redondeados a la pista */
+  }
+  
+  /* Cambia el color de fondo del contenedor para que el desplazamiento se vea mejor */
+  body {
+    background-color: #ecf0f1; /* Cambia el color según tus preferencias */
+    margin: 0; /* Elimina el margen predeterminado del cuerpo */
+    padding: 20px; /* Añade un espacio de relleno para que la barra de desplazamiento sea visible */
+  }
+  
